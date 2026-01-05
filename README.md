@@ -1,59 +1,49 @@
-# 🔍 AI Visibility Tracker
+# ⚡ Sonic - AI Visibility Tracker
 
-Track how prominently your brand appears in AI-generated responses from **ChatGPT**.
+> **Track, Analyze, and Optimize your brand's presence in AI-generated responses.**
 
----
-
-## 🎯 What It Does
-
-This tool acts as an **Audit System** for AI visibility. Use it to understand if LLMs (like ChatGPT) recommend your product when users ask generic questions about your industry.
-
-1. **Simulate User Queries**: Generates organic questions based on your category (e.g., "Best CRM software", "Cost-effective project tools").
-2. **Audit AI Responses**: Queries OpenAI's models to get authentic AI responses.
-3. **Analyze Visibility**: Detects if your brand (and competitors) are mentioned, widely cited, or appearing in specific contexts.
-4. **Compare & Optimize**: Side-by-side comparison to see where you win or lose against competitors.
+Sonic is a powerful intelligence tool designed to audit how LLMs (like ChatGPT) perceive and recommend your brand. By simulating user queries and analyzing real-time responses, Sonic helps you understand your share of voice in the AI era.
 
 ---
 
 ## ✨ Features
 
-### Core Capabilities
+### 🎯 **Playground & Real-Time Auditing**
 
-- ✅ **Category-Based Auditing** - Test how AI responds to generic searches in your niche.
-- ✅ **Multi-Brand Tracking** - Monitor your brand alongside multiple competitors.
-- ✅ **Organic Prompt Engine** - Uses realistic user intents (Discovery, Recommendation, Pricing) rather than direct brand queries.
-- ✅ **Citation Extraction** - Identifies which websites the AI uses as sources of truth.
+- **Live Simulation**: Generate organic user questions based on your industry category.
+- **Brand Detection**: Automatically detect mentions of your brand and competitors in AI responses.
+- **Sentiment Analysis**: Understand the context of how your brand is being portrayed.
 
-### Report Dashboard
+### 📊 **Intelligent Dashboard**
 
-- ✅ **Visibility Score** - Percentage of prompts where the brand appears.
-- ✅ **Citation Share** - Leaderboard of most credited sources.
-- ✅ **Brand Leaderboard** - Ranking based on overall presence.
-- ✅ **Detailed Insights** - Exact quotes/context of where brands were mentioned.
+- **Win/Loss Analysis**: See exactly where you stand against competitors.
+- **Visibility Score**: Track your "Share of Model" over time.
+- **Session History**: Access past audit sessions and track improvements.
 
-### Brand Comparison (Gap Analysis)
+### 📝 **Comprehensive Reports**
 
-- ✅ **Neutral Comparison** - Compare any two brands side-by-side.
-- ✅ **Win/Loss Analysis** - Identify specific prompts where one brand is recommended over another.
-- ✅ **Visual Metrics** - Easy-to-read charts for visibility and mention dominance.
+- **Detailed Citations**: Identify which sources LLMs are using to gather information about you.
+- **Gap Analysis**: Discover missing keywords or topics that competitors are ranking for.
 
 ---
 
-## 🛠 Tech Stack
+## 🛠️ Tech Stack
 
-### Frontend
+Built with a modern, high-performance stack designed for scalability and developer experience.
 
-- **Next.js 14** (App Router)
-- **TypeScript**
-- **Tailwind CSS + shadcn/ui**
-- **TanStack Query** (React Query) - Polling & State Management
+### **Frontend** (`/frontend`)
 
-### Backend
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) & [shadcn/ui](https://ui.shadcn.com/)
+- **State Management**: [TanStack Query](https://tanstack.com/query/latest)
+- **Visualization**: [Recharts](https://recharts.org/)
+- **Icons**: [Lucide React](https://lucide.dev/)
 
-- **Node.js + Express**
-- **TypeScript**
-- **BullMQ + Redis** (Job Queue System)
-- **OpenAI API** (Auditing & Analysis)
-- **PostgreSQL** (Persistence via DAO pattern)
+### **Backend** (`/backend`)
 
-
+- **Runtime**: Node.js & Express
+- **Language**: TypeScript
+- **Queue System**: [BullMQ](https://docs.bullmq.io/) & Redis
+- **Database**: PostgreSQL
+- **AI Integration**: OpenAI API
+- **Scraping**: Puppeteer (Stealth Plugin)
