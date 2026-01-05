@@ -2,8 +2,6 @@
 
 Track how prominently your brand appears in AI-generated responses from **ChatGPT**.
 
-> Built for the Writesonic Fullstack Engineer Challenge
-
 ---
 
 ## 🎯 What It Does

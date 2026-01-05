@@ -8,6 +8,7 @@ import { createResponse } from "../db/dao/response/responseDAO";
 import { analyzeWithLLM } from "../services/analysis/llm-analysis";
 import { createMentionsBatch } from "../db/dao/mention/mentionDAO";
 import { createCitationsBatch } from "../db/dao/citation/citationDAO";
+import { DraftMention } from "../db/dao/mention/types";
 
 const processAuditJob = async (job: Job<AuditJobData>) => {
   const { sessionId, brands } = job.data;
@@ -52,7 +53,7 @@ const processAuditJob = async (job: Job<AuditJobData>) => {
 
           const result = await analyzeWithLLM(response.content, brands);
 
-          const mentionsToCreate = [];
+          const mentionsToCreate: DraftMention[] = [];
           for (const mention of result.mentions) {
             if (brands.includes(mention.brand)) {
               mentionsToCreate.push({
