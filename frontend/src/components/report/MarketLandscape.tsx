@@ -38,32 +38,28 @@ interface MarketLandscapeProps {
   primaryBrand?: string;
 }
 
-// Primary brand gets a distinct green color
-const PRIMARY_BRAND_COLOR = "#22c55e"; // green-500
+const PRIMARY_BRAND_COLOR = "#22c55e";
 const COMPETITOR_COLORS = [
-  "#f97316", // orange-500
-  "#3b82f6", // blue-500
-  "#a855f7", // purple-500
-  "#ef4444", // red-500
-  "#06b6d4", // cyan-500
-  "#eab308", // yellow-500
-  "#ec4899", // pink-500
+  "#f97316",
+  "#3b82f6",
+  "#a855f7",
+  "#ef4444",
+  "#06b6d4",
+  "#eab308",
+  "#ec4899",
 ];
 
 export function MarketLandscape({ data, primaryBrand }: MarketLandscapeProps) {
   const { matrix, aggregatedStats, brands, totalPrompts } = data;
 
-  // Helper to get brand color
   const getBrandColor = (brand: string, index: number) => {
     if (brand === primaryBrand) return PRIMARY_BRAND_COLOR;
-    // For competitors, use competitor colors (skip indices used by primary)
     const competitorIndex = brands.filter(
       (b, i) => b !== primaryBrand && i < index
     ).length;
     return COMPETITOR_COLORS[competitorIndex % COMPETITOR_COLORS.length];
   };
 
-  // Prepare data for bar chart
   const chartData = useMemo(() => {
     return brands
       .map((brand, index) => ({
@@ -78,7 +74,6 @@ export function MarketLandscape({ data, primaryBrand }: MarketLandscapeProps) {
       .sort((a, b) => b.citationShare - a.citationShare);
   }, [brands, aggregatedStats, primaryBrand]);
 
-  // Find market leader
   const marketLeader = useMemo(() => {
     const sorted = [...brands].sort(
       (a, b) =>
@@ -88,7 +83,6 @@ export function MarketLandscape({ data, primaryBrand }: MarketLandscapeProps) {
     return sorted[0];
   }, [brands, aggregatedStats]);
 
-  // Find battleground prompts (where all or most brands are mentioned)
   const battlegroundPrompts = useMemo(() => {
     return matrix
       .filter((entry) => {
@@ -100,7 +94,6 @@ export function MarketLandscape({ data, primaryBrand }: MarketLandscapeProps) {
       .slice(0, 3);
   }, [matrix, brands]);
 
-  // Find opportunity gaps (prompts where brand is NOT mentioned)
   const opportunityGaps = useMemo(() => {
     const gaps: Record<string, string[]> = {};
     brands.forEach((brand) => {
@@ -114,7 +107,6 @@ export function MarketLandscape({ data, primaryBrand }: MarketLandscapeProps) {
 
   return (
     <div className="space-y-8">
-      {/* Share of Voice Chart */}
       <Card className="bg-card border-border">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">
@@ -174,7 +166,6 @@ export function MarketLandscape({ data, primaryBrand }: MarketLandscapeProps) {
         </CardContent>
       </Card>
 
-      {/* Competitive Matrix Table */}
       <Card className="bg-card border-border">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">
@@ -244,7 +235,6 @@ export function MarketLandscape({ data, primaryBrand }: MarketLandscapeProps) {
                   </TableRow>
                 ))}
 
-                {/* Summary Row */}
                 <TableRow className="border-t-2 border-border bg-muted/30">
                   <TableCell className="font-semibold">Total Wins</TableCell>
                   {brands.map((brand, index) => (
@@ -264,7 +254,6 @@ export function MarketLandscape({ data, primaryBrand }: MarketLandscapeProps) {
             </Table>
           </div>
 
-          {/* Legend */}
           <div className="mt-4 flex items-center justify-center gap-6 text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
               <Badge className="bg-green-500/10 text-green-600 border-0 text-xs">
@@ -288,7 +277,6 @@ export function MarketLandscape({ data, primaryBrand }: MarketLandscapeProps) {
         </CardContent>
       </Card>
 
-      {/* Insights Summary */}
       <Card className="bg-card border-border">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">
@@ -296,7 +284,6 @@ export function MarketLandscape({ data, primaryBrand }: MarketLandscapeProps) {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Market Leader */}
           {marketLeader && aggregatedStats[marketLeader] && (
             <div className="flex items-start gap-3 p-3 rounded-lg bg-green-500/5 border border-green-500/20">
               <Trophy className="h-5 w-5 text-green-500 mt-0.5" />
@@ -317,7 +304,6 @@ export function MarketLandscape({ data, primaryBrand }: MarketLandscapeProps) {
             </div>
           )}
 
-          {/* Battleground Prompts */}
           {battlegroundPrompts.length > 0 && (
             <div className="flex items-start gap-3 p-3 rounded-lg bg-blue-500/5 border border-blue-500/20">
               <Target className="h-5 w-5 text-blue-500 mt-0.5" />
@@ -340,7 +326,6 @@ export function MarketLandscape({ data, primaryBrand }: MarketLandscapeProps) {
             </div>
           )}
 
-          {/* Opportunity Gaps */}
           {brands.map((brand, index) => {
             const gaps = opportunityGaps[brand];
             if (!gaps || gaps.length === 0) return null;

@@ -23,14 +23,13 @@ interface RecentSession {
 }
 
 export default function Home() {
-  // ✅ React Query for recent sessions
   const { data: recentSessions = [] } = useQuery({
     queryKey: ["recent-sessions"],
     queryFn: async () => {
       const res = await resultsApi.getRecent();
-      return (res.sessions || []).slice(0, 3) as RecentSession[]; // Only 3 for home
+      return (res.sessions || []).slice(0, 3) as RecentSession[];
     },
-    staleTime: 30 * 1000, // Fresh for 30 seconds
+    staleTime: 30 * 1000,
     refetchOnWindowFocus: true,
   });
 
@@ -50,7 +49,6 @@ export default function Home() {
 
   return (
     <div className="flex h-screen bg-background text-foreground font-sans">
-      {/* Sidebar */}
       <aside className="hidden w-[220px] bg-sidebar text-sidebar-foreground flex-col md:flex">
         <div className="h-14 flex items-center px-4">
           <div className="flex items-center gap-2 font-semibold text-lg">
@@ -95,12 +93,10 @@ export default function Home() {
         </div>
       </aside>
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 bg-background">
         <main className="flex-1 overflow-auto">
           <div className="relative min-h-full">
             <div className="relative max-w-4xl mx-auto px-6 py-8">
-              {/* Header */}
               <div className="text-center mb-8">
                 <h1 className="text-3xl font-semibold tracking-tight text-foreground mb-2">
                   Playground
@@ -110,12 +106,10 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Form Card */}
               <div className="max-w-xl mx-auto">
                 <TrackingForm />
               </div>
 
-              {/* Recent Runs - Only show if there are sessions */}
               {recentSessions.length > 0 && (
                 <div className="mt-12">
                   <div className="flex items-center justify-between mb-4">

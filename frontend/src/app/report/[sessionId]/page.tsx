@@ -46,7 +46,6 @@ export default function ReportPage() {
   const queryClient = useQueryClient();
   const sessionId = params.sessionId as string;
 
-  // Fetch session status
   const {
     data: status,
     isLoading: statusLoading,
@@ -61,21 +60,18 @@ export default function ReportPage() {
     },
   });
 
-  // Fetch results
   const { data: results } = useQuery({
     queryKey: ["session-results", sessionId],
     queryFn: () => getResults(sessionId),
     enabled: status?.status === "COMPLETED",
   });
 
-  // Fetch competitive matrix
   const { data: matrixData } = useQuery({
     queryKey: ["session-matrix", sessionId],
     queryFn: () => getCompetitiveMatrix(sessionId),
     enabled: status?.status === "COMPLETED",
   });
 
-  // Invalidate cache on completion
   useEffect(() => {
     if (status?.status === "COMPLETED") {
       queryClient.invalidateQueries({ queryKey: ["reports"] });
@@ -83,23 +79,18 @@ export default function ReportPage() {
     }
   }, [status?.status, queryClient]);
 
-  // All brands from session
   const allBrands = results?.session?.brands || [];
   const myBrand = results?.session?.primaryBrand || allBrands[0];
 
-  // View Type: "personal" (Single Brand) vs "market" (All Brands)
   const [viewType, setViewType] = useState<"personal" | "market">("personal");
 
-  // Selected brand for impersonation mode (defaults to user's brand)
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
 
-  // Determine the active brand to display
   const activeBrand = selectedBrand || myBrand;
   const isImpersonating = selectedBrand && selectedBrand !== myBrand;
 
   return (
     <div className="flex h-screen bg-background text-foreground font-sans">
-      {/* Sidebar */}
       <aside className="hidden w-[220px] bg-sidebar text-sidebar-foreground flex-col md:flex">
         <div className="h-14 flex items-center px-4">
           <div className="flex items-center gap-2 font-semibold text-lg">
@@ -126,18 +117,15 @@ export default function ReportPage() {
         </nav>
       </aside>
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 bg-background overflow-auto">
         <div className="relative min-h-full">
           <div className="relative max-w-5xl mx-auto px-6 py-8">
-            {/* Loading */}
             {statusLoading && (
               <div className="flex items-center justify-center py-20">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
               </div>
             )}
 
-            {/* Error */}
             {statusError && !statusLoading && (
               <div className="bg-red-500/5 border border-red-500/20 rounded-xl p-12 text-center">
                 <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-4">
@@ -154,10 +142,8 @@ export default function ReportPage() {
               </div>
             )}
 
-            {/* Content */}
             {!statusLoading && !statusError && (
               <>
-                {/* Header Actions */}
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-4">
                     <Button
@@ -169,7 +155,6 @@ export default function ReportPage() {
                       <ArrowLeft className="h-4 w-4" />
                       Back
                     </Button>
-                    {/* Status Badge */}
                     {status?.status && (
                       <Badge
                         className={
@@ -185,10 +170,8 @@ export default function ReportPage() {
                     )}
                   </div>
 
-                  {/* View Type Toggle & Brand Selector */}
                   {status?.status === "COMPLETED" && (
                     <div className="flex items-center gap-3">
-                      {/* Brand Selector Dropdown */}
                       {viewType === "personal" && allBrands.length > 1 && (
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -243,7 +226,6 @@ export default function ReportPage() {
                         </DropdownMenu>
                       )}
 
-                      {/* View Type Toggle */}
                       <div className="flex bg-muted p-1 rounded-lg h-10 items-center border border-border/50">
                         <button
                           className={`px-4 py-1.5 text-sm font-semibold rounded-md transition-all h-full ${
@@ -270,7 +252,6 @@ export default function ReportPage() {
                   )}
                 </div>
 
-                {/* Progress bar (Running) */}
                 {status?.status === "RUNNING" && status.totalPrompts && (
                   <Card className="mb-8 border-primary/30 bg-primary/5">
                     <CardHeader>
@@ -285,7 +266,6 @@ export default function ReportPage() {
                   </Card>
                 )}
 
-                {/* Report Data */}
                 {status?.status === "COMPLETED" && (
                   <>
                     <MetricCards
@@ -293,10 +273,8 @@ export default function ReportPage() {
                       brandsCount={results?.session?.brands?.length || 0}
                     />
 
-                    {/* Single Brand Report (Personal View) */}
                     {viewType === "personal" && matrixData && (
                       <div className="mt-8">
-                        {/* Impersonation Banner */}
                         {isImpersonating && (
                           <div className="mb-4 flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-lg">
                             <User className="h-4 w-4 text-amber-600" />
@@ -330,7 +308,6 @@ export default function ReportPage() {
                       </div>
                     )}
 
-                    {/* Market Landscape Mode */}
                     {viewType === "market" && matrixData && (
                       <div className="mt-8">
                         <MarketLandscape
@@ -340,13 +317,10 @@ export default function ReportPage() {
                       </div>
                     )}
 
-                    {/* Citations and Prompt Responses - Only in Market Landscape */}
                     {viewType === "market" && (
                       <>
-                        {/* Show citations */}
                         <TopCitedSources citations={results?.citations || []} />
 
-                        {/* Prompts List */}
                         <Card className="bg-card border-border mt-8">
                           <CardHeader>
                             <CardTitle className="flex items-center gap-2 text-lg">

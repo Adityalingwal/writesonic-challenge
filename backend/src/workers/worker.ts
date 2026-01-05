@@ -24,7 +24,6 @@ const processAuditJob = async (job: Job<AuditJobData>) => {
 
     let promptsProcessed = 0;
 
-    // Loop through each prompt linearly
     for (const prompt of prompts) {
       try {
         await job.updateProgress({

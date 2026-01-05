@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 interface PerspectiveSelectorProps {
   allBrands: string[];
   activeBrand: string;
-  myBrand: string; // The original "My Brand"
+  myBrand: string;
   onBrandChange: (brand: string) => void;
 }
 
@@ -57,7 +57,6 @@ export function PerspectiveSelector({
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
 
-          {/* My Brand Option */}
           <DropdownMenuItem
             className="gap-2 cursor-pointer"
             onClick={() => onBrandChange(myBrand)}
@@ -76,7 +75,6 @@ export function PerspectiveSelector({
             Impersonate Competitor
           </DropdownMenuLabel>
 
-          {/* Competitor Options */}
           {allBrands
             .filter((b) => b !== myBrand)
             .map((brand) => (

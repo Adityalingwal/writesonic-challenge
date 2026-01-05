@@ -44,9 +44,9 @@ export function TopCitedSources({ citations }: TopCitedSourcesProps) {
             <TableBody>
               {Object.entries(
                 citations
-                  .filter((c) => c.domain) // Filter out null domains
+                  .filter((c) => c.domain)
                   .reduce((acc: Record<string, number>, curr) => {
-                    const domain = curr.domain as string; // Safe cast
+                    const domain = curr.domain as string;
                     acc[domain] = (acc[domain] || 0) + 1;
                     return acc;
                   }, {})

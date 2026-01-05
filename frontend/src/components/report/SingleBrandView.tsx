@@ -27,7 +27,6 @@ export function SingleBrandView({ brand, data }: SingleBrandViewProps) {
     totalMentions: 0,
   };
 
-  // 1. Get prompts where this brand is mentioned (Wins vs Presence)
   const mentions = useMemo(() => {
     return matrix
       .filter((entry) => entry.brandPerformance[brand]?.isPresent)
@@ -36,19 +35,14 @@ export function SingleBrandView({ brand, data }: SingleBrandViewProps) {
         isWinner: entry.brandPerformance[brand]?.isWinner,
         count: entry.brandPerformance[brand]?.mentionCount,
       }))
-      .sort((a, b) => (b.isWinner === a.isWinner ? 0 : b.isWinner ? 1 : -1)); // Winners first
+      .sort((a, b) => (b.isWinner === a.isWinner ? 0 : b.isWinner ? 1 : -1));
   }, [matrix, brand]);
 
-  // 2. Get missed opportunities (Not mentioned)
   const missedOpportunities = useMemo(() => {
     return matrix
       .filter((entry) => !entry.brandPerformance[brand]?.isPresent)
       .map((entry) => entry.promptText);
   }, [matrix, brand]);
-
-  // 3. Positive positioning (Contexts) - This would ideally come from the backend context analysis
-  // For now, we simulate "Top Contexts" by pulling recent mentions if we had them stored per prompt
-  // Since we only have matrix summary here, we'll focus on the prompt topics.
 
   const visibilityRate =
     Math.round(((totalPrompts - stats.promptsMissed) / totalPrompts) * 100) ||
@@ -56,7 +50,6 @@ export function SingleBrandView({ brand, data }: SingleBrandViewProps) {
 
   return (
     <div className="space-y-6">
-      {/* Hero Stats for the Brand */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="bg-primary/5 border-primary/20">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
@@ -73,8 +66,6 @@ export function SingleBrandView({ brand, data }: SingleBrandViewProps) {
             </p>
           </CardContent>
         </Card>
-
-        {/* Total Wins Card Removed as per request */}
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
@@ -106,7 +97,6 @@ export function SingleBrandView({ brand, data }: SingleBrandViewProps) {
       </div>
 
       <div className="w-full">
-        {/* Left Col: Where you appear */}
         <div className="space-y-6">
           <Card className="h-full">
             <CardHeader>

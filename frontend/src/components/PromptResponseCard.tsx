@@ -43,21 +43,17 @@ export function PromptResponseCard({
   mentions,
   trackedBrands,
 }: PromptResponseCardProps) {
-  // Hardcode platform to ChatGPT
   const selectedPlatform = "chatgpt";
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Get response for selected platform
   const currentResponse = responses.find(
     (r) => r.platform.toLowerCase() === selectedPlatform
   );
 
-  // Get mentions for current response
   const currentMentions = mentions.filter(
     (m) => m.responseId === currentResponse?.id
   );
 
-  // Calculate mention counts for tracked brands
   const getBrandStatus = (brand: string) => {
     const brandMentions = currentMentions.filter(
       (m) => m.brandName.toLowerCase() === brand.toLowerCase()
@@ -72,14 +68,12 @@ export function PromptResponseCard({
     return { count: totalCount, contexts, mentioned: totalCount > 0 };
   };
 
-  // Available platforms
   const platforms = [
     ...new Set(responses.map((r) => r.platform.toLowerCase())),
   ];
 
   return (
     <div className="border border-border rounded-xl overflow-hidden bg-card shadow-sm hover:shadow-md transition-shadow">
-      {/* Prompt Header */}
       <div className="bg-gradient-to-r from-muted/80 to-muted/40 px-5 py-4 border-b border-border">
         <div className="flex items-start gap-3">
           <span className="bg-primary text-primary-foreground text-xs font-bold px-2.5 py-1.5 rounded-md shadow-sm">
@@ -93,7 +87,6 @@ export function PromptResponseCard({
 
       {currentResponse ? (
         <div className="p-5 space-y-5">
-          {/* Tracked Brands Status */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
               Your Tracked Brands
@@ -126,7 +119,6 @@ export function PromptResponseCard({
             </div>
           </div>
 
-          {/* Context for each tracked brand */}
           <div className="space-y-4">
             {trackedBrands.map((brand) => {
               const status = getBrandStatus(brand);
@@ -164,7 +156,6 @@ export function PromptResponseCard({
               );
             })}
 
-            {/* Show message if no tracked brands mentioned */}
             {trackedBrands.every(
               (brand) => !getBrandStatus(brand).mentioned
             ) && (
@@ -176,7 +167,6 @@ export function PromptResponseCard({
             )}
           </div>
 
-          {/* Full AI Response - Expandable */}
           <div className="space-y-3">
             <button
               onClick={() => setIsExpanded(!isExpanded)}

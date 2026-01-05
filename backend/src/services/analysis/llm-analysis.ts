@@ -107,7 +107,7 @@ export const analyzeWithLLM = async (
     }
 
     const parsed = AnalysisSchema.parse(JSON.parse(content));
-    console.log("Parsed Analysis:", parsed); // Commented out log
+    console.log("Parsed Analysis:", parsed);
     return {
       mentions: parsed.mentions,
       citations: parsed.citations || [],

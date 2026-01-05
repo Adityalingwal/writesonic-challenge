@@ -48,7 +48,6 @@ export const startTracking = async (
 }> => {
   const { category, myBrand, competitors } = input;
 
-  // Combine primary brand and competitors for tracking
   const allBrands = [myBrand, ...competitors];
 
   const generatedPrompts = generatePrompts(category);
@@ -241,8 +240,6 @@ export const getLeaderboard = async (
     0
   );
 
-  // Visibility = % of responses where brand was mentioned
-  // responseCount = total responses from all platforms
   return Object.entries(brandStats)
     .map(([brand, stats]) => ({
       brand,
@@ -303,11 +300,9 @@ export const getCompetitiveMatrix = async (
   const brands = session.brands;
   const totalPrompts = prompts.length;
 
-  // Build the matrix: for each prompt, calculate brand performance
   const matrix: PromptMatrixEntry[] = prompts.map((prompt) => {
     const promptMentions = mentions.filter((m) => m.promptId === prompt.id);
 
-    // Build performance map for each brand
     const brandPerformance: Record<string, BrandPerformance> = {};
     let maxMentions = 0;
 
@@ -327,13 +322,11 @@ export const getCompetitiveMatrix = async (
       }
     });
 
-    // Determine winner(s) - brand(s) with highest mentions (if > 0)
     let winner: string | null = null;
     if (maxMentions > 0) {
       const winners = brands.filter(
         (brand) => brandPerformance[brand].mentionCount === maxMentions
       );
-      // If single winner, mark as winner; if tie, no single winner
       if (winners.length === 1) {
         winner = winners[0];
         brandPerformance[winner].isWinner = true;
@@ -348,7 +341,6 @@ export const getCompetitiveMatrix = async (
     };
   });
 
-  // Calculate aggregated stats per brand
   const totalMentionsAll = mentions.reduce((sum, m) => sum + m.mentionCount, 0);
 
   const aggregatedStats: Record<string, BrandAggregatedStats> = {};
