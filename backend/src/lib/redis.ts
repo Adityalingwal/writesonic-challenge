@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const redisUrl = process.env.REDIS_URl || "";
+const redisUrl = process.env.REDIS_URL || "";
 
 export const redis = new Redis(redisUrl, {
   maxRetriesPerRequest: null,

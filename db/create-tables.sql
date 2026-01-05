@@ -1,14 +1,4 @@
--- AI Visibility Tracker Database Schema
--- Run this to create all tables from scratch
 
--- Drop existing tables if they exist (in correct order due to foreign keys)
-DROP TABLE IF EXISTS citation CASCADE;
-DROP TABLE IF EXISTS brand_mention CASCADE;
-DROP TABLE IF EXISTS ai_response CASCADE;
-DROP TABLE IF EXISTS prompt CASCADE;
-DROP TABLE IF EXISTS tracking_session CASCADE;
-
--- Create tracking_session table
 CREATE TABLE tracking_session (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     category VARCHAR(255) NOT NULL,
@@ -21,7 +11,6 @@ CREATE TABLE tracking_session (
     total_prompts INTEGER DEFAULT 0
 );
 
--- Create prompt table
 CREATE TABLE prompt (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     session_id UUID NOT NULL,
@@ -34,7 +23,6 @@ CREATE TABLE prompt (
         ON DELETE CASCADE
 );
 
--- Create ai_response table
 CREATE TABLE ai_response (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     prompt_id UUID NOT NULL,
@@ -53,7 +41,7 @@ CREATE TABLE ai_response (
         ON DELETE CASCADE
 );
 
--- Create brand_mention table
+
 CREATE TABLE brand_mention (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     response_id UUID NOT NULL,
@@ -78,7 +66,6 @@ CREATE TABLE brand_mention (
         ON DELETE CASCADE
 );
 
--- Create citation table
 CREATE TABLE citation (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     response_id UUID NOT NULL,
@@ -98,7 +85,6 @@ CREATE TABLE citation (
         ON DELETE CASCADE
 );
 
--- Create indexes for better query performance
 CREATE INDEX idx_prompt_session ON prompt(session_id);
 CREATE INDEX idx_response_session ON ai_response(session_id);
 CREATE INDEX idx_response_prompt ON ai_response(prompt_id);
